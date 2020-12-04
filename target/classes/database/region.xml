@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.dao.RegionMapper">
+	<select id="sidoList"
+      resultType="com.ssafy.happyhouse.model.dto.DongCodeDto">
+      SELECT  substring(sido_code,1,2) as dongCode, sido_name as sido FROM sidocode;
+   </select>
+   <select id="gugunList"
+      resultType="com.ssafy.happyhouse.model.dto.DongCodeDto">
+      SELECT DISTINCT substring(dongCode,3,3) dongCode, gugun FROM dongCode WHERE left(dongCode,2) = #{no} ORDER BY dongCode;
+   </select>
+   <select id="dongList"
+      resultType="com.ssafy.happyhouse.model.dto.DongCodeDto">
+      SELECT DISTINCT substring(dongCode,6,3) dongCode, dong FROM dongCode WHERE left(dongCode,5) = #{no} ORDER BY dongCode;
+   </select>
+</mapper>

@@ -1,0 +1,31 @@
+create table qna_board(
+qna_id int(10) not null auto_increment primary key,
+name varchar(25) not null,
+title varchar(25) not null,
+qna_describe varchar(30)
+);
+
+create table notice(
+no int(10) not null auto_increment primary key,
+title varchar(25) not null,
+notice_describe varchar(100) not null,
+writetime timestamp default current_timestamp
+);
+
+
+기본기능
+
+웹페이지
+게시글 목록
+게시글 등록
+게시글 수정
+게시글 상세 검색
+
+서버
+게시글 등록
+게시글 수정
+게시글 삭제
+게시글 상세검색
+게시글 목록
+
+구현

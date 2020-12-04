@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.dao.HouseMapper">
+	<select id="selectBoardLimitOffsetCount" parameterType="map" resultType="int">
+       select count(*) from houses
+       <where>
+          <if test="dongCode != null">AND left(dongCode, #{dongLang}+0) = #{dongCode}</if>
+          <if test="type != null">
+             AND
+             <if test="type == '매매'">type like '매매'</if>
+             <if test="type == '전세'">type like '전세'</if>
+             <if test="type == '월세'">type like '월세'</if>
+          </if>
+          <if test="houseType != null">
+             AND
+             <if test="houseType == '아파트'">houseType like '아파트'</if>
+             <if test="houseType == '오피스텔'">houseType like '오피스텔'</if>
+             <if test="houseType == '빌라'">houseType like '빌라'</if>
+          </if>
+          <if test="price != null">
+             AND
+             <if test="price == 1">price <![CDATA[ > ]]>
+                100000
+             </if>
+             <if test="price == 500">price <![CDATA[ <= ]]>
+                500
+             </if>
+             <if test="price == 1000">price <![CDATA[ > ]]>
+                500 AND price <![CDATA[ <= ]]>
+                1000
+             </if>
+             <if test="price == 2000">price <![CDATA[ > ]]>
+                1000 AND price <![CDATA[ <= ]]>
+                2000
+             </if>
+             <if test="price == 5000">price <![CDATA[ > ]]>
+                2000 AND price <![CDATA[ <= ]]>
+                5000
+             </if>
+             <if test="price == 10000">price <![CDATA[ > ]]>
+                5000 AND price <![CDATA[ <= ]]>
+                10000
+             </if>
+             <if test="price == 20000">price <![CDATA[ > ]]>
+                10000 AND price <![CDATA[ <= ]]>
+                20000
+             </if>
+             <if test="price == 50000">price <![CDATA[ > ]]>
+                20000 AND price <![CDATA[ <= ]]>
+                50000
+             </if>
+             <if test="price == 100000">price <![CDATA[ > ]]>
+                50000 AND price <![CDATA[ <= ]]>
+                100000
+             </if>
+          </if>
+          <if test="monthPrice != null">
+             AND
+             <if test="monthPrice == 1">monthPrice <![CDATA[ > ]]>
+                1000
+             </if>
+             <if test="monthPrice == 20">monthPrice <![CDATA[ <= ]]>
+                20
+             </if>
+             <if test="monthPrice == 50">monthPrice <![CDATA[ > ]]>
+                20 AND monthPrice <![CDATA[ <= ]]>
+                50
+             </if>
+             <if test="monthPrice == 100">monthPrice <![CDATA[ > ]]>
+                50 AND monthPrice <![CDATA[ <= ]]>
+                100
+             </if>
+             <if test="monthPrice == 200">monthPrice <![CDATA[ > ]]>
+                100 AND monthPrice <![CDATA[ <= ]]>
+                200
+             </if>
+             <if test="monthPrice == 500">monthPrice <![CDATA[ > ]]>
+                200 AND monthPrice <![CDATA[ <= ]]>
+                500
+             </if>
+             <if test="monthPrice == 1000">monthPrice <![CDATA[ > ]]>
+                500 AND monthPrice <![CDATA[ <= ]]>
+                1000
+             </if>
+          </if>
+          <if test="area != null">
+             AND
+             <if test="area == 1">area <![CDATA[ > ]]>
+                148.7
+             </if>
+             <if test="area == 66">area <![CDATA[ <= ]]>
+                66
+             </if>
+             <if test="area == 82.5">area <![CDATA[ > ]]>
+                66 AND area <![CDATA[ <= ]]>
+                82.5
+             </if>
+             <if test="area == 99">area <![CDATA[ > ]]>
+                82.5 AND area <![CDATA[ <= ]]>
+                99
+             </if>
+             <if test="area == 115.7">area <![CDATA[ > ]]>
+                99 AND area <![CDATA[ <= ]]>
+                115.7
+             </if>
+             <if test="area == 148.7">area <![CDATA[ > ]]>
+                115.7 AND area <![CDATA[ <= ]]>
+                148.7
+             </if>
+          </if>
+          <if test="room != null">
+             AND
+             <if test="room == 5">room <![CDATA[ >= ]]>
+                5
+             </if>
+             <if test="room != 5">room = #{room}+0</if>
+          </if>
+          <if test="typeChoice != null">
+             <if test="keyword != null">
+                AND
+                <if test="typeChoice == 1">addAddr like #{keyword}</if>
+                <if test="typeChoice == 2">addValue like #{keyword}</if>
+             </if>
+          </if>
+       </where>
+       ORDER BY no DESC
+    </select>
+    <!-- 목록 불러오기 -->
+    <select id="selectBoardLimitOffset" parameterType="map"
+       resultType="com.ssafy.happyhouse.model.dto.HouseDto">
+       select no, type, houseType, addr, addAddr from houses
+       <where>
+          <if test="dongCode != null">AND left(dongCode, #{dongLang}+0) = #{dongCode}</if>
+          <if test="type != null">
+             AND
+             <if test="type == '매매'">type like '매매'</if>
+             <if test="type == '전세'">type like '전세'</if>
+             <if test="type == '월세'">type like '월세'</if>
+          </if>
+          <if test="houseType != null">
+             AND
+             <if test="houseType == '아파트'">houseType like '아파트'</if>
+             <if test="houseType == '오피스텔'">houseType like '오피스텔'</if>
+             <if test="houseType == '빌라'">houseType like '빌라'</if>
+          </if>
+          <if test="price != null">
+             AND
+             <if test="price == 1">price <![CDATA[ > ]]>
+                100000
+             </if>
+             <if test="price == 500">price <![CDATA[ <= ]]>
+                500
+             </if>
+             <if test="price == 1000">price <![CDATA[ > ]]>
+                500 AND price <![CDATA[ <= ]]>
+                1000
+             </if>
+             <if test="price == 2000">price <![CDATA[ > ]]>
+                1000 AND price <![CDATA[ <= ]]>
+                2000
+             </if>
+             <if test="price == 5000">price <![CDATA[ > ]]>
+                2000 AND price <![CDATA[ <= ]]>
+                5000
+             </if>
+             <if test="price == 10000">price <![CDATA[ > ]]>
+                5000 AND price <![CDATA[ <= ]]>
+                10000
+             </if>
+             <if test="price == 20000">price <![CDATA[ > ]]>
+                10000 AND price <![CDATA[ <= ]]>
+                20000
+             </if>
+             <if test="price == 50000">price <![CDATA[ > ]]>
+                20000 AND price <![CDATA[ <= ]]>
+                50000
+             </if>
+             <if test="price == 100000">price <![CDATA[ > ]]>
+                50000 AND price <![CDATA[ <= ]]>
+                100000
+             </if>
+          </if>
+          <if test="monthPrice != null">
+             AND
+             <if test="monthPrice == 1">monthPrice <![CDATA[ > ]]>
+                1000
+             </if>
+             <if test="monthPrice == 20">monthPrice <![CDATA[ <= ]]>
+                20
+             </if>
+             <if test="monthPrice == 50">monthPrice <![CDATA[ > ]]>
+                20 AND monthPrice <![CDATA[ <= ]]>
+                50
+             </if>
+             <if test="monthPrice == 100">monthPrice <![CDATA[ > ]]>
+                50 AND monthPrice <![CDATA[ <= ]]>
+                100
+             </if>
+             <if test="monthPrice == 200">monthPrice <![CDATA[ > ]]>
+                100 AND monthPrice <![CDATA[ <= ]]>
+                200
+             </if>
+             <if test="monthPrice == 500">monthPrice <![CDATA[ > ]]>
+                200 AND monthPrice <![CDATA[ <= ]]>
+                500
+             </if>
+             <if test="monthPrice == 1000">monthPrice <![CDATA[ > ]]>
+                500 AND monthPrice <![CDATA[ <= ]]>
+                1000
+             </if>
+          </if>
+          <if test="area != null">
+             AND
+             <if test="area == 1">area <![CDATA[ > ]]>
+                148.7
+             </if>
+             <if test="area == 66">area <![CDATA[ <= ]]>
+                66
+             </if>
+             <if test="area == 82.5">area <![CDATA[ > ]]>
+                66 AND area <![CDATA[ <= ]]>
+                82.5
+             </if>
+             <if test="area == 99">area <![CDATA[ > ]]>
+                82.5 AND area <![CDATA[ <= ]]>
+                99
+             </if>
+             <if test="area == 115.7">area <![CDATA[ > ]]>
+                99 AND area <![CDATA[ <= ]]>
+                115.7
+             </if>
+             <if test="area == 148.7">area <![CDATA[ > ]]>
+                115.7 AND area <![CDATA[ <= ]]>
+                148.7
+             </if>
+          </if>
+          <if test="room != null">
+             AND
+             <if test="room == 5">room <![CDATA[ >= ]]>
+                5
+             </if>
+             <if test="room != 5">room = #{room}+0</if>
+          </if>
+          <if test="typeChoice != null">
+             <if test="keyword != null">
+                AND
+                <if test="typeChoice == 1">addAddr like #{keyword}</if>
+                <if test="typeChoice == 2">addValue like #{keyword}</if>
+             </if>
+          </if>
+       </where>
+       ORDER BY no DESC
+       limit #{limit} offset #{offset}
+    </select>
+
+    <!-- 게시글 limit offset 조회 -->
+    <select id="selectBoardTotalCount" resultType="int">
+       select count(*) from houses
+    </select>
+	<select id="myList" resultType="com.ssafy.happyhouse.model.dto.HouseDto">
+		select no, type, houseType, addr, addAddr from houses where id = #{id} ORDER BY no DESC
+	</select>
+	<select id="list" resultType="com.ssafy.happyhouse.model.dto.HouseDto">
+		select no, type, houseType, addr, addAddr from houses ORDER BY no DESC
+	</select>
+	<select id="silist" resultType="com.ssafy.happyhouse.model.dto.HouseDto" parameterType="map">
+      	select no, type, houseType, addr, addAddr,price,monthPrice,lat,lng from houses where substring(dongcode,1,#{length}+0)=#{dongCode} ORDER BY no DESC
+    </select>
+	<select id="gulist" resultType="com.ssafy.happyhouse.model.dto.HouseDto" parameterType="map">
+      	select no, type, houseType, addr, addAddr,price,monthPrice,lat,lng from houses where substring(dongcode,1,#{length}+0)=#{dongCode} ORDER BY no DESC
+    </select>
+	<select id="donglist" resultType="com.ssafy.happyhouse.model.dto.HouseDto" parameterType="String">
+      	select no, type, houseType, addr, addAddr,price,monthPrice,lat,lng from houses where substring(dongcode,1,8)=#{dongcode} ORDER BY no DESC
+    </select>
+	<insert id="addHouse" parameterType="com.ssafy.happyhouse.model.dto.HouseDto">
+		insert into houses(id, tel, type, houseType, postCode, dongCode, addr, addAddr, layer, area, direction, room, bathroom, yearMonth, addValue, price, monthPrice, financing, date, deal, lat, lng)
+			values(#{id}, #{tel}, #{type}, #{houseType}, #{postCode}, #{dongCode}, #{addr}, #{addAddr}, #{layer}, #{area}, #{direction}, #{room}, #{bathroom}, #{yearMonth}, #{addValue}, #{price}, #{monthPrice}, #{financing}, #{date}, #{deal}, #{lat}, #{lng})
+	</insert>
+	<select id="reservationList" resultType="com.ssafy.happyhouse.model.dto.JoinDto">
+		SELECT r.num num, r.id id, r.no no, r.date date, r.reservDate reservDate, r.value value, h.tel tel, h.addr addr, h.addAddr addAddr FROM reservation AS r JOIN houses AS h ON r.no = h.no where r.id = #{id} ORDER BY reservDate DESC;
+	</select>
+	<select id="rereservationList" resultType="com.ssafy.happyhouse.model.dto.JoinDto">
+		SELECT r.num num, r.id id, r.no no , r.date date, r.reservDate reservDate, r.value value, h.tel tel, h.addr addr, h.addAddr addAddr FROM reservation AS r JOIN houses AS h ON r.no = h.no where h.id = #{id} ORDER BY reservDate DESC;
+	</select>
+	<insert id="addReservation" parameterType="com.ssafy.happyhouse.model.dto.ReservationDto">
+		insert into Reservation(id, no, date) values(#{id}, #{no}, #{date});
+	</insert>
+	<select id="detailHouse" parameterType="com.ssafy.happyhouse.model.dto.HouseDto" resultType="com.ssafy.happyhouse.model.dto.HouseDto">
+		select * from houses where no = #{no}
+	</select>
+	<delete id="deleteHouse" parameterType="java.lang.Integer">
+		delete from houses WHERE no=#{no}
+	</delete>
+	<delete id="reservDelete" parameterType="java.lang.Integer">
+		delete from reservation WHERE num=#{num}+0
+	</delete>
+	<update id="modifyHouse" parameterType="com.ssafy.happyhouse.model.dto.HouseDto">
+		update houses set tel=#{tel}, type=#{type}, houseType=#{houseType}, postCode=#{postCode}, dongCode=#{dongCode}, addr=#{addr}, addAddr=#{addAddr}, layer=#{layer}, area=#{area}, direction=#{direction}, room=#{room}, bathroom=#{bathroom}, yearMonth=#{yearMonth}, addValue=#{addValue}, price=#{price}, monthPrice=#{monthPrice}, financing=#{financing}, date=#{date}, deal=#{deal} WHERE no=#{no}
+	</update>
+	<update id="reservModify" parameterType="map">
+		update reservation set value=1 WHERE num=#{num}+0
+	</update>
+	<select id="searchList" resultType="com.ssafy.happyhouse.model.dto.HouseDto" parameterType="map">
+		select no, type, houseType, addr, addAddr from houses
+			<where>
+				<if test="dongCode != null">AND left(dongCode, #{dongLang}+0) = #{dongCode}</if>
+				<if test="type != null">AND 
+					<if test="type == '매매'">type like '매매'</if>
+					<if test="type == '전세'">type like '전세'</if>
+					<if test="type == '월세'">type like '월세'</if>					
+				</if>
+				<if test="houseType != null">AND
+					<if test="houseType == '아파트'">houseType like '아파트'</if>
+					<if test="houseType == '오피스텔'">houseType like '오피스텔'</if>
+					<if test="houseType == '빌라'">houseType like '빌라'</if>
+				</if>
+				<if test="price != null">AND
+					<if test="price == 1">price <![CDATA[ > ]]> 100000</if>
+					<if test="price == 500">price <![CDATA[ <= ]]> 500</if>
+					<if test="price == 1000">price <![CDATA[ > ]]> 500 AND price <![CDATA[ <= ]]> 1000</if>
+					<if test="price == 2000">price <![CDATA[ > ]]> 1000 AND price <![CDATA[ <= ]]> 2000</if>
+					<if test="price == 5000">price <![CDATA[ > ]]> 2000 AND price <![CDATA[ <= ]]> 5000</if>
+					<if test="price == 10000">price <![CDATA[ > ]]> 5000 AND price <![CDATA[ <= ]]> 10000</if>
+					<if test="price == 20000">price <![CDATA[ > ]]> 10000 AND price <![CDATA[ <= ]]> 20000</if>
+					<if test="price == 50000">price <![CDATA[ > ]]> 20000 AND price <![CDATA[ <= ]]> 50000</if>
+					<if test="price == 100000">price <![CDATA[ > ]]> 50000 AND price <![CDATA[ <= ]]> 100000</if>
+				</if>
+				<if test="monthPrice != null">AND
+					<if test="monthPrice == 1">monthPrice <![CDATA[ > ]]> 1000</if>
+					<if test="monthPrice == 20">monthPrice <![CDATA[ <= ]]> 20</if>
+					<if test="monthPrice == 50">monthPrice <![CDATA[ > ]]> 20 AND monthPrice <![CDATA[ <= ]]> 50</if>
+					<if test="monthPrice == 100">monthPrice <![CDATA[ > ]]> 50 AND monthPrice <![CDATA[ <= ]]> 100</if>
+					<if test="monthPrice == 200">monthPrice <![CDATA[ > ]]> 100 AND monthPrice <![CDATA[ <= ]]> 200</if>
+					<if test="monthPrice == 500">monthPrice <![CDATA[ > ]]> 200 AND monthPrice <![CDATA[ <= ]]> 500</if>
+					<if test="monthPrice == 1000">monthPrice <![CDATA[ > ]]> 500 AND monthPrice <![CDATA[ <= ]]> 1000</if>
+				</if>
+				<if test="area != null">AND
+					<if test="area == 1">area <![CDATA[ > ]]> 148.7</if>
+					<if test="area == 66">area <![CDATA[ <= ]]> 66</if>
+					<if test="area == 82.5">area <![CDATA[ > ]]> 66 AND area <![CDATA[ <= ]]> 82.5</if>
+					<if test="area == 99">area <![CDATA[ > ]]> 82.5 AND area <![CDATA[ <= ]]> 99</if>
+					<if test="area == 115.7">area <![CDATA[ > ]]> 99 AND area <![CDATA[ <= ]]> 115.7</if>
+					<if test="area == 148.7">area <![CDATA[ > ]]> 115.7 AND area <![CDATA[ <= ]]> 148.7</if>
+				</if>
+				<if test="room != null">AND
+					<if test="room == 5">room <![CDATA[ >= ]]> 5</if>
+					<if test="room != 5">room = #{room}+0</if>
+				</if>
+				<if test="typeChoice != null">
+					<if test="keyword != null">AND
+						<if test="typeChoice == 1">addAddr like #{keyword}</if>
+						<if test="typeChoice == 2">addValue like #{keyword}</if>
+					</if>
+				</if>
+			</where>
+			ORDER BY no DESC
+	</select>
+</mapper>

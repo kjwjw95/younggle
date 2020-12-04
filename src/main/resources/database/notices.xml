@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.dao.NoticeMapper">
+	<select id="defaultNotices"
+		resultType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		select no, title, notice_describe, date_format(writetime, '%Y-%m-%d') writetime from notices where top = 0 ORDER BY no DESC
+	</select>
+	<select id="topNotices" parameterType="java.lang.Integer"
+		resultType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		select no, title, notice_describe, date_format(writetime, '%Y-%m-%d') writetime from notices where top = 1 ORDER BY no DESC
+	</select>
+	<select id="detailNotice" parameterType="java.lang.Integer" resultType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		select no, title, notice_describe, writetime, top from notices where no = #{no}
+	</select>
+	<insert id="addNotice" parameterType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		insert into notices(title, notice_describe, top) values(#{title}, #{notice_describe}, #{top})
+	</insert>
+	<delete id="deleteNotice" parameterType="java.lang.Integer">
+		delete from notices WHERE no=#{no}
+	</delete>
+	<update id="updateNotice" parameterType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		update notices set title=#{title}, notice_describe=#{notice_describe}, top=#{top} WHERE no=#{no}
+	</update>
+	<select id="NoticesList" parameterType="map"
+		resultType="com.ssafy.happyhouse.model.dto.NoticesDto">
+		select no, title, notice_describe, date_format(writetime, '%Y-%m-%d') writetime from notices where top = 0 ORDER BY no DESC
+		limit #{limit} offset #{offset}
+	</select>
+
+	<!-- 게시글 limit offset 조회 -->
+	<select id="NoticeCount" resultType="int">
+		select count(*) from notices where top = 0
+	</select>
+</mapper>
+<!-- private int id; private String name; private String mailid; private 
+	String start_date; private int manager_id; private String title; private 
+	int dept_id; private double salary; private double commission_pct=0.0; -->
